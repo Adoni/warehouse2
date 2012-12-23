@@ -1,0 +1,27 @@
+<header class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <%=link_to "仓库管理系统", root_path, id: "logo" %>
+      <nav>
+        <ul class="nav pull-right">
+          <%if signed_in?%>
+            <li><%=link_to "仓库查询", root_path%></li>
+            <li><%=link_to "操作", root_path%></li>
+            <%if admin?%>
+              <li><%=link_to "用户管理", root_path%></li>
+              <li><%=link_to "货品管理", root_path%></li>
+            <%end%>
+            <li id="fat-menu" class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=current_user.name%><b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "用户资料", current_user %></li>
+                <li><%= link_to "退出", signout_path, method: "delete" %></li>
+              </ul>
+          <%else%>
+            <%=link_to "登入", signin_path%>
+          <%end%>
+        </ul>
+      </nav>
+    </div>     
+  </div>
+</header>
