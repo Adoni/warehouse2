@@ -1,4 +1,10 @@
 Warehouse::Application.routes.draw do
+  
+  resources :sessions, only:[:create, :destroy]
+  resources :users  
+  
+  match '/signin', to: 'sessions#new'
+  match '/signout', to: 'sessions#destroy'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -54,7 +60,5 @@ Warehouse::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  match '/signin', to: 'sessions#new'
-  match '/signout', to: 'sessions#destroy'
 
 end

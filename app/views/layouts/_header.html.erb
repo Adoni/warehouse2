@@ -1,0 +1,54 @@
+<header class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <%=link_to "仓库管理系统", root_path, id: "logo" %> 
+      <ul class="nav pull-right">
+        <%if signed_in?%>
+          <li><%=link_to "仓库查询", root_path%></li>
+          <li><%=link_to "操作", root_path%></li>
+            <%if admin?%>
+              <li><%=link_to "用户管理", root_path%></li>
+              <li><%=link_to "货品管理", root_path%></li>
+            <%end%>
+          <li id="fat-menu" class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=current_user.name%><b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "用户资料", current_user %></li>
+              <li><%= link_to "退出", signout_path, method: "delete" %></li>
+            </ul>
+        <%else%>
+          <!--处理登入-->
+          <li><a href="#myModal" role="button" data-toggle="modal">登入</a></li>
+        <%end%>
+      </ul>
+    </div>     
+  </div>
+</header>
+
+<!-- 登入用dialog -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">输入账户名与密码</h3>
+  </div>
+  <div class="modal-body">
+    <%= form_for(:session, url: sessions_path) do |f| %>
+      <%= f.label :name, "用户名：" %>
+      <%= f.text_field :name %>
+      <%= f.label :password, "密码：" %>
+      <%= f.password_field :password %>
+  </div>
+  <div class="modal-footer">
+    <%= f.submit "登入", class: "btn btn-primary" %>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+    <%end%>
+  </div>
+</div>
+
+<div class="container"></br></div>
+<div class="container"></br></div>
+<div class="container"></br></div>
+
+<%flash.each do |key, value|%>
+  <div class="alert alert-<%= key %> container"><%= value %></div>
+<%end%>
