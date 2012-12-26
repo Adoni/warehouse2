@@ -1,0 +1,52 @@
+<%=render 'layouts/header'%>
+<div class="container">
+  <div class="row">
+    <div class="span6 offset3">
+
+      <%=form_for @user, html: {class: "form-horizontal"} do |f|%>
+      <%=render 'layouts/error_messages', object: f.object%>  
+      <div class="control-group">
+        <%=f.label :name, "用户名", class: "control-label"%>
+        <div class="controls">
+          <%=f.text_field :name%>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <%=f.label :password, "密码", class: "control-label"%>
+        <div class="controls">
+          <%=f.text_field :password, value: 123456, readonly: "readonly"%>
+          <%=f.hidden_field :password_confirmation, value: 123456%>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <%=f.label :type_desc, "用户类型", class: "control-label"%>
+        <div class="controls">
+          <%if @user.type_desc.eql?("楼长")%>
+            <%=f.text_field :type_desc, value: "楼长", readonly: "readonly"%>
+            <%=f.hidden_field :admin, value: 0%>
+          <%else%>
+            <%=f.text_field :type_desc, value: "管理员", readonly: "readonly"%>
+            <%=f.hidden_field :admin, value: 1%>
+          <%end%>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <%=f.label :each_house_id, "管理仓库", class: "control-label"%>
+        <div class="controls">
+          <%=f.select :each_house_id, @dormitory , class: "span2"%>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <div class="controls"> 
+          <%=f.submit "添加", class: "btn btn-primary"%>
+        </div>
+      </div>
+      <%end%>
+
+    </div>
+  </div>
+</div>

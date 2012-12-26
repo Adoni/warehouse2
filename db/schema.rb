@@ -11,16 +11,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121221125652) do
+ActiveRecord::Schema.define(:version => 20121226164919) do
+
+  create_table "each_houses", :force => true do |t|
+    t.string   "name"
+    t.string   "position"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "password_digest"
     t.string   "type_desc"
-    t.boolean  "admin"
     t.string   "remember_token"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.integer  "each_house_id"
+    t.integer  "admin"
   end
 
   add_index "users", ["name"], :name => "index_users_on_name"

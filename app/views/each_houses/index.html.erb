@@ -1,0 +1,43 @@
+<%=render 'layouts/header'%>
+<div class="container">
+  <div class="row">
+    <div class="span3">
+      <div class="well sidebar-nav">
+      <ul class="nav nav-list">
+        <li class="nav nav-header">A区</li>
+        <%@eachhouses.each do |f|%>
+          <%if f.position.eql?("A区")%>
+            <li>
+              <%=link_to(f) do%>
+                <%=f.name%><i class="icon-chevron-right"></i>
+              <%end%>
+            </li>
+          <%end%>
+        <%end%>
+        <li class="nav nav-header">B区</li>
+        <%@eachhouses.each do |f|%>
+          <%if f.position.eql?("B区")%>
+            <li>
+              <%=link_to(f) do%>
+                <%=f.name%><i class="icon-chevron-right"></i>
+              <%end%>
+            </li>
+          <%end%>
+        <%end%>
+      </ul>
+      </div>
+      <div class="well sidebar-nav">      
+        <%=form_for @newhouse do |f|%>
+          <%=render 'layouts/error_messages', object: f.object%>
+          <%=f.text_field :name, placeholder: "仓库名称", class: "input-mini"%>
+          <%=f.select :position, [['A区', 'A区'], ['B区', 'B区']]%>
+          <%=f.submit "创建仓库", class: "btn btn-primary"%>
+        <%end%>
+      </div>
+    </div>
+
+
+    <div class="span9">
+    </div>
+  </div>
+</div>

@@ -26,6 +26,6 @@ module SessionsHelper
   end
   
   def admin?
-    current_user.admin?
+    current_user.admin==1
   end
 end

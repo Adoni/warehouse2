@@ -1,3 +1,4 @@
+# encoding=UTF-8
 class SessionsController < ApplicationController
   def new
   end
@@ -7,7 +8,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:session][:password])
       sign_in user
     else
-      flash[:error] = "Invalid name/password combination"
+      flash[:error] = "用户名或密码出错"
     end
     redirect_to root_path
   end
