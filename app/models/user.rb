@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :name, :password, :password_confirmation, :type_desc, :admin, :each_house_id  
+  attr_accessible :name, :password, :password_confirmation, :type_desc, :admin, :each_house_id
   has_secure_password
 
   validates :name, presence: true, length: {maximum:18}

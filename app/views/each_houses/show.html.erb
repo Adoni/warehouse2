@@ -1,0 +1,90 @@
+<%=render 'layouts/header'%>
+<div class="container">
+  <div class="row">
+    <div class="span2">
+      <div class="well sidebar-nav">
+      <ul class="nav nav-list">
+        <li class="nav nav-header">A区</li>
+        <%@eachhouses.each do |f|%>
+          <%if f.position.eql?("A区")%>
+            <li>
+              <%=link_to(f) do%>
+                <%=f.name%><i class="icon-chevron-right"></i>
+              <%end%>
+            </li>
+          <%end%>
+        <%end%>
+        <li class="nav nav-header">B区</li>
+        <%@eachhouses.each do |f|%>
+          <%if f.position.eql?("B区")%>
+            <li>
+              <%=link_to(f) do%>
+                <%=f.name%><i class="icon-chevron-right"></i>
+              <%end%>
+            </li>
+          <%end%>
+        <%end%>
+      </ul>
+      </div>
+      <div class="well sidebar-nav">      
+        <%=form_for @newhouse do |f|%>
+          <%=render 'layouts/error_messages', object: f.object%>
+          <%=f.text_field :name, placeholder: "仓库名称", class: "input-mini"%>
+          <%=f.select :position, [['A区', 'A区'], ['B区', 'B区']]%>
+          <%=f.submit "创建仓库", class: "btn btn-primary"%>
+        <%end%>
+      </div>
+    </div>
+
+
+    <div class="span9 offset1">
+      <div class="row">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>仓库名</th>
+              <th>负责人</th>
+              <th>操作</th>
+              <th></th>
+            <tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%=@eachhouse.name%></td>
+              <%if !@eachhouse.user_id.nil?%>
+                <td><%=User.find(@eachhouse.user_id).name%></td>
+              <%else%>
+                <td>无</td>
+              <%end%>
+              <td><a href="#house" role="button" data-toggle="modal">修改</a></td>
+              <td><%=link_to "删除仓库", @eachhouse, method: :delete, data:{confirm:"确定？"}%></td>
+            </tr>
+          </tbody>
+        </table>
+      </div> 
+    </div>
+  </div>
+
+<!-- 修改用dialog -->
+<div id="house" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="houseLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="houseLabel">修改仓库基本信息</h3>
+  </div>
+  <div class="modal-body">
+    <%= form_for @eachhouse do |f| %>
+      <%= f.label :name, "仓库名称" %>
+      <%= f.text_field :name %>
+      <%= f.label :user_id, "负责人" %>
+      <%= f.select :user_id, User.all.collect{|type|[type.name, type.id]} %>
+      <%= f.label :position, "所属位置" %>
+      <%= f.select :position,[["A区", "A区"], ["B区","B区"]]%>
+  </div>
+  <div class="modal-footer">
+    <%= f.submit "修改", class: "btn btn-primary" %>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+    <%end%>
+  </div>
+</div>
+
+</div>

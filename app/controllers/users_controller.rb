@@ -6,7 +6,11 @@ class UsersController < ApplicationController
   
   def destroy
     if signed_in? && admin?
-      if User.find(params[:id]).destroy
+      @user=User.find(params[:id])
+      if @user.destroy
+        if !@user.each_house_id.nil?
+          EachHouse.find(@user.each_house_id).update_column(:user_id, nil)
+        end
         flash[:success]="删除成功"
       else
         flash[:error]="删除失败"
@@ -37,7 +41,9 @@ class UsersController < ApplicationController
     if signed_in? && admin?
       @user=User.new(params[:user])
       if @user.save
-        EachHouse.find(@user.each_house_id).update_attributes(:user_id=> @user.id)
+        if !@user.each_house_id.nil?
+          EachHouse.find(@user.each_house_id).update_column(:user_id, @user.id)
+        end
         flash[:success]="添加成功"
         redirect_to root_path
       else

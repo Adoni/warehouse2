@@ -18,6 +18,34 @@ class EachHousesController < ApplicationController
     end
   end
 
+  def update
+    if signed_in? && admin?
+      @house=EachHouse.find(params[:id])
+      if !@house.user_id.nil?
+        @olduser=User.find(@house.user_id)
+      end
+      
+      @newuser=User.find(params[:each_house][:user_id])
+      if @house.update_attributes(params[:each_house])
+        if !@olduser.nil?
+          @olduser.update_column(:each_house_id, nil)
+        end
+        if !@newuser.each_house_id.nil?
+          EachHouse.find(@newuser.each_house_id).update_column(:user_id, nil)
+        end
+        @house.update_column(:user_id, @newuser.id)
+        @newuser.update_column(:each_house_id, @house.id)
+        flash[:success]="更新仓库资料成功"
+      else
+        flash[:error]="更新仓库资料失败"
+      end
+      redirect_to @house
+    else
+      flash[:warning]="没有权限"
+      redirect_to root_path
+    end
+  end
+
   def index
     if signed_in? && admin?
       @newhouse=EachHouse.new
@@ -29,10 +57,31 @@ class EachHousesController < ApplicationController
   end
 
   def destroy
+    if signed_in? && admin?
+      @house=EachHouse.find(params[:id])
+      if @house.destroy
+        if !@house.user_id.nil?
+          User.find(@house.user_id).update_column(:each_house_id, nil)
+        end
+        flash[:success]="删除仓库成功"
+        redirect_to each_houses_path
+      else
+        flash[:success]="删除仓库失败"
+        redirect_to @house
+      end
+    else
+      flash[:warning]="没有权限"
+      redirect_to root_path
+    end
   end
   
   def show
-    @eachhouses=EachHouse.all
-    @newhouse=EachHouse.new
+    if signed_in? && admin?
+      @eachhouse=EachHouse.find(params[:id])
+      @eachhouses=EachHouse.all
+      @newhouse=EachHouse.new
+    else
+      flash[:warning]="没有权限"
+    end
   end
 end
