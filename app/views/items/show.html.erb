@@ -1,0 +1,41 @@
+<%=render 'layouts/header'%>
+<div class="container">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>商品名称</th>
+        <th>规格</th>
+        <th>单位</th>
+        <th>单价</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td><%=@item.name%></td>
+        <td><%=@item.spec%></td>
+        <td><%=@item.unit%></td>
+        <td><%=@item.price%></td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+      <th>库房名称</th>
+      <%@housekeeps.each do |a|%>
+        <th><%=a['name']%></th>
+      <%end%>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>数量</td>
+        <%@housekeeps.each do |b|%>
+          <td><%=b['amount']%></td>
+        <%end%>
+      </tr>
+    </tbody>
+  </table>
+</div>

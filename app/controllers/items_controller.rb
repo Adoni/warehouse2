@@ -1,5 +1,19 @@
 # encoding: UTF-8
 class ItemsController < ApplicationController
+  
+  def show
+    @item = Item.find(params[:id])
+    @housekeeps=Array.new
+    EachHouse.all.each do |e|
+      e.items.each do |i|
+        if i.name.eql?(@item.name) && i.spec.eql?(@item.spec) && i.unit.eql?(@item.unit) && i.price==@item.price && i.amount!=0
+          tmp={'id'=>i.id, 'name'=>e.name, 'amount'=>i.amount}
+          @housekeeps<<tmp
+        end
+      end
+    end
+  end
+  
   def create
     if !session[:main_list_in].nil?
       @main_list=MainList.find(session[:main_list_in])

@@ -12,6 +12,7 @@ Warehouse::Application.routes.draw do
   match '/newUser', to: 'users#newUser'
   match '/newAdmin', to: 'users#newAdmin'
   match '/out', to: 'staticpages#outhouse'
+  match '/all', to: 'staticpages#allitem'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

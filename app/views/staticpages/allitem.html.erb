@@ -1,0 +1,44 @@
+<%=render 'layouts/header'%>
+<div class="container">
+  <ul class="nav nav-tabs" id="myTab">
+    <%@items.each do |f|%>
+      <li><a href=<%="#"+f['category']%> data-toggle="tab"><%=f['category']%></a></li>
+    <%end%>  
+  </ul>
+                 
+  <div class="tab-content">
+    <%@items.each do |f|%> 
+      <div class="tab-pane" id=<%=f['category']%>>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>名称</th>
+            <th>规格</th>
+            <th>单位</th>
+            <th>单价</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%i=1%>
+          <%f['items'].each do |a|%>
+              <tr>
+                <td><%=i%></td>
+                <td><%=link_to a['name'], Item.find(a['id'])%></td>
+                <td><%=a['spec']%></td>
+                <td><%=a['unit']%></td>
+                <td><%=a['price']%></td>
+                <%i+=1%>
+              </tr>
+          <%end%>
+        </tbody>
+      </table> 
+      </div>
+    <%end%>
+  </div>
+  <script type="text/javascript">
+    $(function (){
+      $('#myTab a:last').tab('show');
+    })
+  </script>
+</div>
