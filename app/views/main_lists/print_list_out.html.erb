@@ -1,0 +1,59 @@
+<div class="container">
+<table border="1">
+  <tr>
+    <th>录单日期</th>
+    <td><input type="text" name="date"></td>
+  </tr>
+  <tr>
+    <th>出库仓库</th>
+    <td><%=EachHouse.find(@main_list.source).name%></td>
+  </tr>
+  <tr>
+    <th>收货仓库</th>
+    <td><%=EachHouse.find(@main_list.destination).name%></td>
+  </tr>
+  <tr>
+    <th>经手人</th>
+    <td><input type="text" name="people"></td>
+  </tr>
+  <tr>
+    <th>附加说明</th>
+    <td><input type="text" name="desc"></td>
+  </tr>
+  <tr>
+    <th>数量合计</th>
+    <td><%=@main_list.total_amount%></td>
+  </tr>
+  <tr>
+    <th>金额合计</th>
+    <td><%=@main_list.total_price%></td>
+  </tr>
+</table>
+<table border="1">
+  <tr>
+    <th>行号</th>
+    <th>类别</th>
+    <th>商品名称</th>
+    <th>规格</th>
+    <th>单位</th>
+    <th>数量</th>
+    <th>单价</th>
+    <th>金额</th>
+  </tr>
+  <% i=1 %>
+  <% @main_list.items.each do |f|%>
+  <tr>
+    <td><%=i%></td>
+    <td><%=Category.find(f.category_id).name%></td>
+    <td><%=f.name%></td>
+    <td><%=f.spec%></td>
+    <td><%=f.unit%></td>
+    <td><%=f.amount%></td>
+    <td><%=f.price%></td>
+    <td><%=f.price*f.amount%></td>
+  </tr>
+  <%i+=1%>
+  <%end%>
+</table>
+<%=link_to "||", operate_path%>
+</div>

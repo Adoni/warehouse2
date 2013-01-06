@@ -30,7 +30,10 @@
         <%=form_for @newhouse do |f|%>
           <%=render 'layouts/error_messages', object: f.object%>
           <%=f.text_field :name, placeholder: "仓库名称", class: "input-mini"%>
-          <%=f.select :position, [['A区', 'A区'], ['B区', 'B区']]%>
+          <select id="each_house_position" name="each_house[position]" class="span1">
+            <option value="A区">A区</option>
+            <option value="B区">B区</option>
+          </select>
           <%=f.submit "创建仓库", class: "btn btn-primary"%>
         <%end%>
       </div>

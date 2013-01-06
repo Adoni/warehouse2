@@ -1,0 +1,57 @@
+<%=render 'layouts/header'%>
+<div class="container">
+  <div class="row">
+    <div class="span6 offset2">
+      <div class="btn-group">
+        <a href="#putin", role="button" data-toggle="modal" class="btn btn-primary">入库</a>
+        <a href="#putout", role="button" data-toggle="modal" class="btn btn-primary">调拨</a>
+        <%=link_to "出库查询", root_path, class: "btn btn-primary"%>
+        <%=link_to "入库查询", root_path, class: "btn btn-primary"%>
+        <%=link_to "出入库报表", root_path, class: "btn btn-primary"%>
+        <%=link_to "进货单查询", root_path, class: "btn btn-primary"%>
+        <%=link_to "出入库及库存数量统计", root_path, class: "btn btn-primary"%>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="putin" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="putinLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="putinLabel">选择入库库房</h3>
+  </div>
+  <div class="modal-body">
+    <%= form_for @main_list do |f| %>
+      <%= f.label :destination, "入库仓库", class: "control-label"%>
+      <%= f.select :destination, [["A区",1], ["B区", 2]]%>
+      <%= f.hidden_field :source, value: nil%>
+      <%= f.hidden_field :total_price, value: 0%>
+      <%= f.hidden_field :total_amount, value: 0%>
+  </div>
+  <div class="modal-footer">
+    <%= f.submit "创建入库单", class: "btn btn-primary"%>
+    <%end%>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+
+<div id="putout" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="putoutLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="putoutLabel">选择出库库房与子库房</h3>
+  </div>
+  <div class="modal-body">
+    <%= form_for @main_list do |f| %>
+      <%= f.label :source, "出库仓库", class: "control-label"%>
+      <%= f.select :source, [["A区",1], ["B区", 2]]%>
+      <%= f.label :destination, "出库目标仓库"%>
+      <%= f.select :destination, @dormitory.reverse%>
+      <%= f.hidden_field :total_price, value: 0%>
+      <%= f.hidden_field :total_amount, value: 0%>
+  </div>
+  <div class="modal-footer">
+    <%= f.submit "创建出库单", class: "btn btn-primary"%>
+    <%end%>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>

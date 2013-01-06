@@ -1,0 +1,28 @@
+<%if @main_list.source.nil?%>
+<tr>
+  <%if @main_list.destination==0%>
+    <td>A区</td>
+  <%else%>
+    <td>B区</td>
+  <%end%>
+  <td><%=@main_list.total_amount%></td>
+  <td><%=@main_list.total_price%></td>
+  <td><%=link_to "提交", main_list_path(@main_list), method: :put%></td>
+  <td><%=link_to "取消", @main_list, method: :delete, data:{confirm: "确定？"}%></td>
+</tr>
+<%else%>
+  <tr>
+    <td><%=EachHouse.find(@main_list.source).name%></td>
+    <td><%=EachHouse.find(@main_list.destination).name%></td>
+    <td><%=@main_list.total_amount%></td>
+    <td><%=@main_list.total_price%></td>
+    <td><%=link_to "提交", main_list_path(@main_list), method: :put%></td>
+    <td>
+      <%if@main_list.items.empty?%>
+        <%=link_to "取消", @main_list, method: :delete, data:{confirm: "确定？"}%>
+      <%else%>
+        请将明细删除方可取消调度单
+      <%end%>  
+    </td>
+  </tr>
+<%end%>

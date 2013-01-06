@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  source: 1
+  destination: 1
+  total_amount: 1
+  total_price: 1
+
+two:
+  source: 1
+  destination: 1
+  total_amount: 1
+  total_price: 1

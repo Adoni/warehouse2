@@ -1,0 +1,31 @@
+<%=render 'layouts/header'%>
+<div class="container">
+  <div class="row">
+    <div class="span6">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>类别名称</th>
+            <th>所属科目</th>
+          </tr>
+        </thead>
+        <tbody id="category">
+          <%=render :partial=>@categories%>
+        </tbody>
+      </table>
+    </div>
+    <div class="span6">
+      <div id="form">
+      <%=form_for @category, :remote=>true, html:{class: "form-inline"} do |f|%>
+        <%=f.text_field :name, placeholder: "类别名称"%>
+        <select id="category_inttype" name="category[inttype]" class="span2">
+          <option value=0>低值</option>
+          <option value=1>小修</option>
+        </select>
+        <%=f.submit "添加", class: "btn btn-primary"%>
+      <%end%>
+      </div>
+    </div>
+  </div>
+  <%=link_to "返回", root_path, class: "btn btn-primary"%>
+</div>

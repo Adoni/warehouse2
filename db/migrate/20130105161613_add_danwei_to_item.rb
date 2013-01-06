@@ -1,0 +1,5 @@
+class AddDanweiToItem < ActiveRecord::Migration
+  def change
+    add_column :items, :unit, :string
+  end
+end

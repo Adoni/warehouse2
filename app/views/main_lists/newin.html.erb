@@ -1,0 +1,66 @@
+<%=render 'layouts/header'%>
+<div class="container">
+  <div class="row">
+    <div class="span6 offset4">
+      <h4>入库</h4>
+    </div>
+  </div>
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>入库库房</th>
+          <th>总数目</th>
+          <th>总金额</th>
+          <th>操作</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="main_list">
+        <%=render :partial => @main_list%>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row">
+    <div class="span6 offset4">
+      <h4>明细</h4>
+    </div>
+  </div>
+  <div id="form">
+    <%=form_for @item, :remote=>true, html: {class: "form-inline"} do |f|%>
+      <%=f.text_field :name, placeholder: "名称", class: "input-small"%>
+      <%=f.text_field :spec, placeholder: "规格", class: "input-small"%>
+      <%=f.text_field :unit, placeholder: "单位", class: "input-small"%>
+      <select id="item_category_id" name="item[category_id]" class="span2">
+        <%Category.all.each do |f|%>
+          <option value=<%=f.id%>><%=f.name%></option>
+        <%end%>
+      </select>
+      <%=f.text_field :price, placeholder: "价格", class: "input-small"%>
+      <%=f.text_field :amount, placeholder: "数量", class: "input-small"%>
+      <%=f.hidden_field :each_house_id, value: MainList.find(session[:main_list_in]).destination%>
+      <%=f.submit "添加", class: "btn btn-primary"%>
+    <%end%>
+  </div>
+  <div class="row">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>名称</th>
+          <th>规格</th>
+          <th>单位</th>
+          <th>类别</th>
+          <th>数量</th>
+          <th>总价</th>
+          <th>删除</th>
+        </tr>
+      </thead>
+      <tbody id="items">
+        <%i=1%>
+        <%=render :partial => @items%>
+      </tbody>
+    </table>
+  </div>
+</div>

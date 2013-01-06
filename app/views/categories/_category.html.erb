@@ -1,0 +1,9 @@
+<%= content_tag_for(:tr, category) do%>
+  <td><%=category.name%></td>
+  <%if category.inttype==0 %>
+    <td>低值</td>
+  <%else%>
+    <td>小修</td>
+  <%end%>
+  <td><%=link_to "删除", category, method: :delete, data:{confirm: "确定？"}, :remote=>true%></td>
+<%end%>

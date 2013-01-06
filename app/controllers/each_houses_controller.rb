@@ -50,6 +50,9 @@ class EachHousesController < ApplicationController
     if signed_in? && admin?
       @newhouse=EachHouse.new
       @eachhouses=EachHouse.all
+    elsif signed_in?
+      @eachhouse=EachHouse.find(current_user.each_house_id)
+      render 'show'
     else
       flash[:warning]="没有权限"
       redirect_to root_path

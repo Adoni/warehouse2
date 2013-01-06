@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  spec: MyString
+  price: 1
+  amount: 1
+  category_id: 1
+  main_list_id: 1
+  each_house_id: 1
+
+two:
+  name: MyString
+  spec: MyString
+  price: 1
+  amount: 1
+  category_id: 1
+  main_list_id: 1
+  each_house_id: 1

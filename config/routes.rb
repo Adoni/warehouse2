@@ -3,11 +3,15 @@ Warehouse::Application.routes.draw do
   resources :sessions, only:[:create, :destroy]
   resources :users  
   resources :each_houses
-
+  resources :main_lists
+  resources :items
+  resources :categories
+  match '/operate', to: 'staticpages#operate'
   match '/signin', to: 'sessions#new'
   match '/signout', to: 'sessions#destroy'
   match '/newUser', to: 'users#newUser'
   match '/newAdmin', to: 'users#newAdmin'
+  match '/out', to: 'staticpages#outhouse'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

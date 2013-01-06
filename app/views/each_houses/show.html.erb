@@ -1,5 +1,6 @@
 <%=render 'layouts/header'%>
 <div class="container">
+  <%if admin?%>
   <div class="row">
     <div class="span2">
       <div class="well sidebar-nav">
@@ -30,12 +31,15 @@
         <%=form_for @newhouse do |f|%>
           <%=render 'layouts/error_messages', object: f.object%>
           <%=f.text_field :name, placeholder: "仓库名称", class: "input-mini"%>
-          <%=f.select :position, [['A区', 'A区'], ['B区', 'B区']]%>
+          <select id="each_house_position" name="each_house[position]" class="span1">
+            <option value="A区">A区</option>
+            <option value="B区">B区</option>
+          </select>
           <%=f.submit "创建仓库", class: "btn btn-primary"%>
         <%end%>
       </div>
     </div>
-
+  <%end%>
 
     <div class="span9 offset1">
       <div class="row">
@@ -56,13 +60,69 @@
               <%else%>
                 <td>无</td>
               <%end%>
+              <%if admin?%>
               <td><a href="#house" role="button" data-toggle="modal">修改</a></td>
               <td><%=link_to "删除仓库", @eachhouse, method: :delete, data:{confirm:"确定？"}%></td>
+              <%end%>
             </tr>
           </tbody>
         </table>
       </div> 
+    
+      <div class="row">
+        <ul class="nav nav-tabs" id="myTab">
+          <%Category.all.each do |f|%>
+            <li><a href=<%="#"+f.id.to_s%> data-toggle="tab"><%=f.name%></a></li>
+          <%end%>  
+        </ul>
+                 
+        <div class="tab-content">
+          <%Category.all.each do |f|%> 
+            <div class="tab-pane" id=<%=f.id.to_s%>>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>名称</th>
+                    <th>规格</th>
+                    <th>单位</th>
+                    <th>数量</th>
+                    <th>单价</th>
+                    <th>总价</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%i=1%>
+                  <%f.items.each do |a|%>
+                    <%if a.amount==0%>
+                      <%next%>
+                    <%end%>
+                    <%if a.each_house_id==@eachhouse.id%>
+                      <tr>
+                        <td><%=i%></td>
+                        <td><%=a.name%></td>
+                        <td><%=a.spec%></td>
+                        <td><%=a.unit%></td>
+                        <td><%=a.amount%></td>
+                        <td><%=a.price%></td>
+                        <td><%=a.amount*a.price%></td>
+                        <%i+=1%>
+                      </tr>
+                    <%end%>
+                  <%end%>
+                </tbody>
+              </table> 
+            </div>
+          <%end%>
+        </div>
+        <script type="text/javascript">
+          $(function (){
+            $('#myTab a:last').tab('show');
+          })
+        </script>
+      </div>
     </div>
+
   </div>
 
 <!-- 修改用dialog -->

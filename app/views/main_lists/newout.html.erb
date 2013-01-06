@@ -1,0 +1,106 @@
+<%=render 'layouts/header'%>
+<div class="container">
+  <div class="row">
+    <div class="span6 offset4">
+      <h4>调拨</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>调拨库房</th>
+          <th>目标库房</th>
+          <th>总数目</th>
+          <th>总金额</th>
+          <th>操作</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="main_list">
+        <%=render :partial=>@main_list%>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row">
+    <div class="span6 offset4">
+      <h4>明细</h4>
+    </div>
+  </div>
+  
+  <div class="row">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>名称</th>
+          <th>规格</th>
+          <th>单位</th>
+          <th>类别</th>
+          <th>数量</th>
+          <th>总价</th>
+          <th>删除</th>
+        </tr>
+      </thead>
+      <tbody id="items">
+        <%=render :partial => @items%>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <ul class="nav nav-tabs" id="myTab">
+      <%Category.all.each do |f|%>
+        <li><a href=<%="#"+f.id.to_s%> data-toggle="tab"><%=f.name%></a></li>
+      <%end%>  
+    </ul>
+                
+    <div class="tab-content">
+      <%Category.all.each do |f|%> 
+        <div class="tab-pane" id=<%=f.id.to_s%>>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>名称</th>
+                <th>规格</th>
+                <th>单位</th>
+                <th>数量</th>
+                <th>单价</th>
+                <th>总价</th>
+                <th>调拨</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%i=1%>
+              <%f.items.each do |a|%>
+              <%if a.amount==0%>
+                <%next%>
+              <%end%>
+              <%if a.each_house_id==@main_list.source%>
+                <tr>
+                  <td><%=i%></td>
+                  <td><%=a.name%></td>
+                  <td><%=a.spec%></td>
+                  <td><%=a.unit%></td>
+                  <td><%=a.amount%></td>
+                  <td><%=a.price%></td>
+                  <td><%=a.amount*a.price%></td>
+                  <td><%=link_to "选择", edit_item_path(a)%></td>
+                  <%i+=1%>
+                </tr>
+              <%end%>
+              <%end%>
+            </tbody>
+          </table> 
+        </div>
+      <%end%>
+    </div>
+    <script type="text/javascript">
+      $(function (){
+        $('#myTab a:last').tab('show');
+      })
+    </script>
+  </div>
+</div>

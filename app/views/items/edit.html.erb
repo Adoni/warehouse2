@@ -1,0 +1,57 @@
+<%=render 'layouts/header'%>
+<div class="container">
+  <div class="row">
+    <div class="span6 offset3">
+      <%=form_for @item, html:{class: "form-horizontal"} do |f|%>
+        <div class="control-group">
+          <%=f.label :name, "商品名称", class: "control-label"%>
+          <div class="controls">
+            <%=f.text_field :name, value: @item.name, readonly: "readonly"%>
+          </div>
+        </div>
+        <div class="control-group">
+          <%=f.label :spec, "规格", class: "control-label"%>
+          <div class="controls">
+            <%=f.text_field :spec, value: @item.spec, readonly: "readonly"%>
+          </div>
+        </div>
+        <div class="control-group">
+          <%=f.label :unit, "单位", class: "control-label"%>
+          <div class="controls">
+            <%=f.text_field :unit, value: @item.unit, readonly: "readonly"%>
+          </div>
+        </div>
+        <div class="control-group">
+          <%=f.label :price, "价格", class: "control-label"%>
+          <div class="controls">
+            <%=f.text_field :price, value: @item.price, readonly: "readonly"%>
+          </div>
+        </div>
+        <div class="control-group">
+          <%if admin?%>
+            <%=f.label :amount, "调拨数量", class: "control-label"%>
+          <%else%>
+            <%=f.label :amount, "出库数量", class: "control-label"%>
+          <%end%>  
+          <div class="controls">
+            <%=f.text_field :amount%>
+          </div>
+        </div>
+        <%if !session[:main_list_out].nil?%>
+          <%=f.hidden_field :each_house_id, value: MainList.find(session[:main_list_out]).destination%>
+          <%=f.hidden_field :main_list_id, value: session[:main_list_out]%>
+          <%=f.hidden_field :category_id, value: @item.category_id%>
+        <%else%>
+          <%=f.hidden_field :each_house_id, value: @item.each_house_id%>
+          <%=f.hidden_field :main_list_id, value: @item.main_list_id%>
+          <%=f.hidden_field :category_id, value: @item.category_id%>
+        <%end%>
+        <div class="control-group">
+          <div class="controls">
+            <%=f.submit "提交", class: "btn btn-primary"%>
+          </div>
+        </div>
+      <%end%>
+    </div>
+  </div>  
+</div>
