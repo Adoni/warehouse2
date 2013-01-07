@@ -1,0 +1,162 @@
+<div class="row-fluid">
+	<div class="span4"></div>
+	<div class="span4"><h3><%=@startyear.to_s+"年出入库报表"%></h3></div>
+	<div class="span4"></div>
+</div>
+<div class="row-fluid">
+<div class="span6">
+<h4><%=@warehouse+"区 "+@startmonth.to_s+"月份"%></h4>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th></th>
+			<th>上月结余</th>
+			<th>本月入库</th>
+			<th>本月出库</th>
+			<th>本月结余</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%acount=0%><%bcount=0%><%ccount=0%><%dcount=0%>
+		<%@category.each do |f|%>
+			<%if Category.find(f["id"]).inttype==0%>
+			<tr>
+				<td><%=Category.find(f["id"]).name%></td>
+				<td><%=f["lastmonth"]%></td>
+				<td><%=f["in"]%></td>
+				<td><%=f["out"]%></td>
+				<td><%=f["thismonth"]%></td>
+				<%acount+=f["lastmonth"]%>
+				<%bcount+=f["in"]%>
+				<%ccount+=f["out"]%>
+				<%dcount+=f["thismonth"]%>
+			</tr>
+			<%end%>
+		<%end%>
+		<%2.times do%>
+			<tr>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+			</tr>
+		<%end%>
+		<tr>
+			<td>低值合计</td>
+			<td><%=acount%></td>
+			<td><%=bcount%></td>
+			<td><%=ccount%></td>
+			<td><%=dcount%></td>
+		</tr>
+		<%2.times do%>
+			<tr>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+			</tr>
+		<%end%>
+		<%ecount=0%><%fcount=0%><%gcount=0%><%hcount=0%>
+		<%@category.each do |f|%>
+			<%if Category.find(f["id"]).inttype==1%>
+			<tr>
+				<td><%=Category.find(f["id"]).name%></td>
+				<td><%=f["lastmonth"]%></td>
+				<td><%=f["in"]%></td>
+				<td><%=f["out"]%></td>
+				<td><%=f["thismonth"]%></td>
+				<%ecount+=f["lastmonth"]%>
+				<%fcount+=f["in"]%>
+				<%gcount+=f["out"]%>
+				<%hcount+=f["thismonth"]%>
+			</tr>
+			<%end%>
+		<%end%>
+		<%1.times do%>
+			<tr>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+			</tr>
+		<%end%>
+		<tr>
+			<td>小修合计</td>
+			<td><%=ecount%></td>
+			<td><%=fcount%></td>
+			<td><%=gcount%></td>
+			<td><%=hcount%></td>
+		</tr>
+		<%3.times do%>
+			<tr>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+				<td><%="_"%></td>
+			</tr>
+		<%end%>
+		<tr>
+			<%mcount=acount+ecount%>
+			<%ncount=bcount+fcount%>
+			<%ocount=ccount+gcount%>
+			<%pcount=dcount+hcount%>
+			<td>合计</td>
+			<td><%=mcount%></td>
+			<td><%=ncount%></td>
+			<td><%=ocount%></td>
+			<td><%=pcount%></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<div class="span6">
+<h4>各公寓明细</h4>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>单位</th>
+			<th>票据</th>
+			<th>低值</th>
+			<th>小修</th>
+			<th>合计</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<%icount=0%><%jcount=0%><%kcount=0%><%lcount=0%>
+		<%@dormitory.each do |f|%>
+		<tr>
+			<td><%=EachHouse.find(f["id"]).name%></td>
+			<td><%=f["ticketamount"]%></td>
+			<td><%=f["dizhi"]%></td>
+			<td><%=f["xiaoxiu"]%></td>
+			<td><%=f["heji"]%></td>
+			<%icount+=f["ticketamount"]%>
+			<%jcount+=f["dizhi"]%>
+			<%kcount+=f["xiaoxiu"]%>
+			<%lcount+=f["heji"]%>
+		</tr>
+		<%end%>
+		<tr>
+			<td><%="_"%></td>
+			<td><%="_"%></td>
+			<td><%="_"%></td>
+			<td><%="_"%></td>
+			<td><%="_"%></td>
+		</tr>
+		<tr>
+			<td>合计</td>
+			<td><%=icount%></td>
+			<td><%=jcount%></td>
+			<td><%=kcount%></td>
+			<td><%=lcount%></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</div>

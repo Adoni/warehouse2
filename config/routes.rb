@@ -6,6 +6,8 @@ Warehouse::Application.routes.draw do
   resources :main_lists
   resources :items
   resources :categories
+  match '/statistic', to: 'staticpages#statistics'
+  match '/dostatistic', to: 'staticpages#dostatistic'
   match '/operate', to: 'staticpages#operate'
   match '/signin', to: 'sessions#new'
   match '/signout', to: 'sessions#destroy'
@@ -13,6 +15,12 @@ Warehouse::Application.routes.draw do
   match '/newAdmin', to: 'users#newAdmin'
   match '/out', to: 'staticpages#outhouse'
   match '/all', to: 'staticpages#allitem'
+  match '/report', to: 'staticpages#report'
+  match '/doreport', to: 'staticpages#doreport'
+  match '/queryin', to: 'staticpages#queryin'
+  match '/queryout', to: 'staticpages#queryout'
+  match '/doqueryin', to: 'staticpages#doqueryin'
+  match '/doqueryout', to: 'staticpages#doqueryout'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -3,7 +3,7 @@
   <td><%=item.name%></td>
   <td><%=item.spec%></td>
   <td><%=item.unit%></td>
-  <td><%="类别"%></td>
+  <td><%=Category.find(item.category_id).name%></td>
   <td><%=item.amount%></td>
   <td><%=item.price*item.amount%></td>
   <td><%=link_to "删除", item, method: :delete, data:{confirm: "确定？"}, :remote=>true%></td>

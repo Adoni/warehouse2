@@ -19,6 +19,7 @@ class ItemsController < ApplicationController
       @main_list=MainList.find(session[:main_list_in])
     end  
     @item=@main_list.items.build(params[:item])
+    @item.in_amount=@item.amount
     respond_to do |format|
       if @item.save
         @main_list.total_amount += @item.amount
@@ -69,6 +70,7 @@ class ItemsController < ApplicationController
     if signed_in? && admin?
       @sourceItem=Item.find(params[:id])
       @destItem=Item.new(params[:item])
+      @destItem.out_amount=@destItem.amount
       if @sourceItem.amount<@destItem.amount
         flash[:error]="调拨数量大于库存数量"
         redirect_to operate_path

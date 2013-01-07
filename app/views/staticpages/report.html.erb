@@ -1,0 +1,60 @@
+<%=render 'layouts/header'%>
+<div class="container">
+<h3>出入库报表</h3>
+<script>
+		$(function(){
+			window.prettyPrint && prettyPrint();
+			$('#dp1').datepicker({
+				format: 'yyyy-mm-dd'
+			});
+			$('#dp2').datepicker({
+				format:	'yyyy-mm-dd'
+			});
+			$('#dp3').datepicker();
+			
+			
+			var startDate = new Date(2012,1,20);
+			var endDate = new Date(2100,1,25);
+			$('#dp4').datepicker()
+				.on('changeDate', function(ev){
+					if (ev.date.valueOf() > endDate.valueOf()){
+						$('#alert').show().find('strong').text('The start date can not be greater then the end date');
+					} else {
+						$('#alert').hide();
+						startDate = new Date(ev.date);
+						$('#startDate').text($('#dp4').data('date'));
+					}
+					$('#dp4').datepicker('hide');
+				});
+			$('#dp5').datepicker()
+				.on('changeDate', function(ev){
+					if (ev.date.valueOf() < startDate.valueOf()){
+						$('#alert').show().find('strong').text('The end date can not be less then the start date');
+					} else {
+						$('#alert').hide();
+						endDate = new Date(ev.date);
+						$('#endDate').text($('#dp5').data('date'));
+					}
+					$('#dp5').datepicker('hide');
+				});
+		});
+</script>
+<table class="table">
+	<thead>
+		<tr>
+			<th>库房选择</th>
+			<th>时间</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<%= form_tag(doreport_path, :method => "post") do%>
+			<td><%=select_tag "warehouse","<option>A区</option><option>B区</option>".html_safe%></td>
+			<td><%=text_field_tag 'startDate', @year+"-"+@month+"-"+@day, value: @year+"-"+@month+"-"+@day, id: "dp1"%></td>
+			<td><%= submit_tag "提交", class: "btn btn-primary"%></td>
+			<%end%>
+		</tr>
+	</tbody>
+  </table>
+  </div>

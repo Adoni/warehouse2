@@ -5,11 +5,10 @@
       <div class="btn-group">
         <a href="#putin", role="button" data-toggle="modal" class="btn btn-primary">入库</a>
         <a href="#putout", role="button" data-toggle="modal" class="btn btn-primary">调拨</a>
-        <%=link_to "出库查询", root_path, class: "btn btn-primary"%>
-        <%=link_to "入库查询", root_path, class: "btn btn-primary"%>
-        <%=link_to "出入库报表", root_path, class: "btn btn-primary"%>
-        <%=link_to "进货单查询", root_path, class: "btn btn-primary"%>
-        <%=link_to "出入库及库存数量统计", root_path, class: "btn btn-primary"%>
+        <%=link_to "调拨查询", queryout_path, class: "btn btn-primary"%>
+        <%=link_to "入库查询", queryin_path, class: "btn btn-primary"%>
+        <%=link_to "出入库报表", report_path, class: "btn btn-primary"%>
+        <%=link_to "出入库及库存数量统计", statistic_path, class: "btn btn-primary"%>
       </div>
     </div>
   </div>

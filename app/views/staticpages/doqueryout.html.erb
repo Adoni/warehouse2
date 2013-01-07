@@ -1,0 +1,103 @@
+<%=render 'layouts/header'%>
+<div class="container">
+  <h3><%=EachHouse.find(@warehouse).name+"调度情况"%></h3>
+  <%if @warehouse<3%>
+  <table class="table table-striped">
+    <thead>
+	  <tr>
+	    <th>调度时间</th>
+		<th>总金额</th>
+        <th>总数目</th>
+        <th>调拨方向</th>
+		<th>明细</th>
+	  </tr>
+	</thead>
+    <tbody>
+      <%@list.each do |l|%>
+        <tr>
+          <td><%=l.updated_at.strftime("%Y-%m-%d")%></td>
+          <td><%=l.total_price%></td>
+          <td><%=l.total_amount%></td>
+          <td><%=EachHouse.find(l.destination).name%></td>
+          <td>
+		    <table class="table">
+			  <thead>
+			    <tr>
+				  <th>品类</th>
+				  <th>物品名称</th>
+				  <th>规格</th>
+				  <th>单位</th>
+				  <th>数量</th>
+				  <th>单价</th>
+				  <th>金额</th>
+				</tr>
+			  </thead>
+			  <tbody>
+			  <%l.items.each do |item|%>
+			    <tr>
+				  <td><%=Category.find(item.category_id).name%></td>
+				  <td><%=item.name%></td>
+				  <td><%=item.spec%></td>
+				  <td><%=item.unit%></td>
+				  <td><%=item.amount%></td>
+				  <td><%=item.price%></td>
+				  <td><%=item.amount*item.price%></td>
+				</tr>
+			  <%end%>
+			  </tbody>
+			</table>
+          </td>
+        </tr>
+      <%end%>
+	</tbody>
+  </table>
+  <%else%>
+  <table class="table table-striped">
+    <thead>
+	  <tr>
+	    <th>调度时间</th>
+		<th>总金额</th>
+		<th>总数目</th>
+		<th>明细</th>
+	  </tr>
+	</thead>
+    <tbody>
+      <%@list.each do |l|%>
+        <tr>
+          <td><%=l.updated_at.strftime("%Y-%m-%d")%></td>
+          <td><%=l.total_price%></td>
+          <td><%=l.total_amount%></td>
+          <td>
+		    <table class="table">
+			  <thead>
+			    <tr>
+				  <th>品类</th>
+				  <th>物品名称</th>
+				  <th>规格</th>
+				  <th>单位</th>
+				  <th>数量</th>
+				  <th>单价</th>
+				  <th>金额</th>
+				</tr>
+			  </thead>
+			  <tbody>
+			  <%l.items.each do |item|%>
+			    <tr>
+				  <td><%=Category.find(item.category_id).name%></td>
+				  <td><%=item.name%></td>
+				  <td><%=item.spec%></td>
+				  <td><%=item.unit%></td>
+				  <td><%=item.amount%></td>
+				  <td><%=item.price%></td>
+				  <td><%=item.amount*item.price%></td>
+				</tr>
+			  <%end%>
+			  </tbody>
+			</table>
+          </td>
+        </tr>
+      <%end%>
+	</tbody>
+  </table>
+  <%end%>
+</div>

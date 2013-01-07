@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="span4 offset4"><h3><%=@warehouse+"区"%>出入库及库存数量统计</h3></div>
+</div>
+<div class="row">
+  <div class="span4 offset4"><%=@year+"年"+@month+"月"+@day+"日"%></div>
+  <div class="span4"><%=@startyear.to_s+"年"+@startmonth.to_s+"月"+@startday.to_s+"日 至 "%><%=@endyear.to_s+"年"+@endmonth.to_s+"月"+@endday.to_s+"日"%></div>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+	  <th>物品名称</th>
+	  <th>规格</th>
+	  <th>单位</th>
+	  <th>单价</th>
+	  <th>月初库存</br>数量</th>
+	  <th>月初库存</br>金额</th>
+	  <th>出库</br>数量</th>
+	  <th>出库</br>金额</th>
+	  <th>入库</br>数量</th>
+	  <th>入库</br>金额</th>
+	  <th>月末库存</br>数量</th>
+	  <th>月末库存</br>金额</th>
+	</tr>
+  </thead>
+  <tbody>
+	<%@starttotal=0%>
+	<%@endtotal=0%>
+	<%@intotal=0%>
+	<%@outtotal=0%>
+	<% @items.each do |f|%>
+      <%@starttotal+=f["begin_price"]%>
+	  <%@endtotal+=f["end_price"]%>
+	  <%@intotal+=f["in_price"]%>
+	  <%@outtotal+=f["out_price"]%>
+	  <tr>
+	    <td><%=f["name"]%></td>
+	    <td><%=f["spec"]%></td>
+		<td><%=f["unit"]%></td>
+		<td><%=f["price"]%></td>
+		<td><%=f["begin_amount"]%></td>
+		<td><%=f["begin_price"]%></td>
+		<td><%=f["out_amount"]%></td>
+		<td><%=f["out_price"]%></td>
+		<td><%=f["in_amount"]%></td>
+		<td><%=f["in_price"]%></td>
+		<td><%=f["end_amount"]%></td>
+		<td><%=f["end_price"]%></td>
+	  </tr>
+	<%end%>
+	<tr>
+	  <td>合计</td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	  <td><%=@starttotal%></td>
+	  <td></td>
+	  <td><%=@outtotal%></td>
+	  <td></td>
+	  <td><%=@intotal%></td>
+	  <td></td>
+	  <td><%=@endtotal%></td>
+	</tr>
+  </tbody>
+</table>
