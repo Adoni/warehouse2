@@ -6,7 +6,11 @@ Warehouse::Application.routes.draw do
   resources :main_lists
   resources :items
   resources :categories
-  match '/statistic', to: 'staticpages#statistics'
+	match '/doBackup', to: 'staticpages#doBackup'
+	match '/deleteBackup', to: 'staticpages#deleteBackup'
+	match '/restore', to: 'staticpages#restore'
+	match '/backup', to: 'staticpages#backup'
+	match '/statistic', to: 'staticpages#statistics'
   match '/dostatistic', to: 'staticpages#dostatistic'
   match '/operate', to: 'staticpages#operate'
   match '/signin', to: 'sessions#new'
@@ -21,7 +25,13 @@ Warehouse::Application.routes.draw do
   match '/queryout', to: 'staticpages#queryout'
   match '/doqueryin', to: 'staticpages#doqueryin'
   match '/doqueryout', to: 'staticpages#doqueryout'
-  # The priority is based upon order of creation:
+	match '/editinlist', to: 'staticpages#editinlist'
+	match '/deleteinlist', to: 'staticpages#deleteinlist'
+	match '/printinlist', to: 'staticpages#printinlist'
+	match '/printoutlist', to: 'staticpages#printoutlist'
+	match '/editoutlist', to: 'staticpages#editoutlist'
+	match '/deleteoutlist', to: 'staticpages#deleteoutlist'
+# The priority is based upon order of creation:
   # first created -> highest priority.
 
   # Sample of regular route:

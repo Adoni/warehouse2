@@ -9,6 +9,8 @@
         <%=link_to "入库查询", queryin_path, class: "btn btn-primary"%>
         <%=link_to "出入库报表", report_path, class: "btn btn-primary"%>
         <%=link_to "出入库及库存数量统计", statistic_path, class: "btn btn-primary"%>
+				<%=link_to "数据库备份", backup_path, class: "btn btn-primary"%>
+				<%=link_to "数据库恢复", restore_path, class: "btn btn-primary"%>
       </div>
     </div>
   </div>
@@ -37,13 +39,13 @@
 <div id="putout" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="putoutLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-    <h3 id="putoutLabel">选择出库库房与子库房</h3>
+    <h3 id="putoutLabel">选择出库库房与调拨单位</h3>
   </div>
   <div class="modal-body">
     <%= form_for @main_list do |f| %>
       <%= f.label :source, "出库仓库", class: "control-label"%>
       <%= f.select :source, [["A区",1], ["B区", 2]]%>
-      <%= f.label :destination, "出库目标仓库"%>
+      <%= f.label :destination, "调拨单位"%>
       <%= f.select :destination, @dormitory.reverse%>
       <%= f.hidden_field :total_price, value: 0%>
       <%= f.hidden_field :total_amount, value: 0%>

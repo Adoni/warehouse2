@@ -1,0 +1,21 @@
+<%=render 'layouts/header'%>
+<div class="container">
+  <table class="table">
+    <thead>
+	  	<tr>
+	    	<th>文件名</th>
+				<th>删除</th>
+				<th>恢复</th>
+	  	</tr>
+		</thead>
+		<tbody>
+			<% @sql.each do |a|%>
+	  	<tr>
+				<td><%=a%></td>
+				<td><%=link_to "删除", deleteBackup_path(:name=>a), class: "btn btn-primary"%></td>
+				<td><%=link_to "恢复", doBackup_path(:name=>a), class: "btn btn-primary"%></td>
+	  	</tr>
+			<%end%>
+		</tbody>
+  </table>
+</div>

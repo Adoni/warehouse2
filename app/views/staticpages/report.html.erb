@@ -43,17 +43,19 @@
 	<thead>
 		<tr>
 			<th>库房选择</th>
-			<th>时间</th>
+			<th>起始时间</th>
+			<th>结束时间</th>
 			<th>操作</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 			<%= form_tag(doreport_path, :method => "post") do%>
-			<td><%=select_tag "warehouse","<option>A区</option><option>B区</option>".html_safe%></td>
-			<td><%=text_field_tag 'startDate', @year+"-"+@month+"-"+@day, value: @year+"-"+@month+"-"+@day, id: "dp1"%></td>
-			<td><%= submit_tag "提交", class: "btn btn-primary"%></td>
-			<%end%>
+		  <td><%=select_tag "warehouse","<option>A区库房</option><option>B区库房</option>".html_safe%></td>
+		  <td><%=text_field_tag 'startDate', @year+"-"+@month+"-"+@day, value: @year+"-"+@month+"-"+@day, id: "dp1"%></td>
+		  <td><%=text_field_tag 'endDate', @year+"-"+@month+"-"+@day, value: @year+"-"+@month+"-"+@day, id: "dp2"%></td>
+          <td><%= submit_tag "提交", class: "btn btn-primary"%></td>
+        <%end%>
 		</tr>
 	</tbody>
   </table>

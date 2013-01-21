@@ -2,8 +2,156 @@
 class StaticpagesController < ApplicationController
   attr_accessor :items
   attr_accessor :category, :dormitory
-  def home
+	
+	def deleteBackup
+		string=params[:name]
+		system 'rm '+string
+		flash[:success]="删除成功"
+		redirect_to operate_path
+	end
+	def doBackup	
+			system 'mysql -hlocalhost -uroot -pht19491001 job<'+params[:name]
+			flash[:success]="恢复成功"
+			redirect_to operate_path
+	end
+
+	def restore
+		@sql=Array.new
+		@sql=Dir["./backup/*"]
+		print @sql
+	end
+
+	def backup
+		if admin?
+		@t=Time.new
+		string=@t.strftime("%Y-%m-%d-%H:%M:%S")
+		if File.directory?"./backup/"
+			#新建backup文件夹
+			if Dir::chdir("./backup/")==0
+				system 'mysqldump -hlocalhost -uroot -pht19491001 job>'+string+'.sql'
+			end
+		else
+			Dir::mkdir("./backup/")
+			if Dir::chdir("./backup/")==0
+				system 'mysqldump -hlocalhost -uroot -pht19491001 job>'+string+'.sql'
+			end
+		end
+		flash[:success]="备份成功"
+		Dir::chdir("../")
+		redirect_to operate_path
+		end
+	end
+
+	def home
   end
+	def printoutlist
+		@main_list=MainList.find(params[:main_list_id])
+		render 'main_lists/print_list_out'
+	end
+	def printinlist
+		@main_list=MainList.find(params[:main_list_id])
+		render 'main_lists/print_list_in'
+	end
+	def deleteoutlist
+		@main_list=MainList.find(params[:main_list_id])
+		@s_house=EachHouse.find(@main_list.source)
+		@main_list.items.each do |item|
+			@s_house.items.each do |a|
+				if a.name.eql?(item.name) && a.spec.eql?(item.spec) && a.unit.eql?(item.unit) && a.price.eql?(item.price)
+					a.amount += item.out_amount
+					a.update_column(:amount, a.amount)
+					break
+				end
+			end
+		end
+		@main_list.destroy
+		flash[:success]="删除成功"
+		redirect_to operate_path
+	end
+	def	deleteinlist
+		@main_list=MainList.find(params[:main_list_id])
+		@main_list.items.each do |item|
+			item.destroy
+		end
+		@main_list.destroy
+		flash[:success]="删除成功"
+		redirect_to operate_path
+	end
+	def editinlist
+		@main_list=MainList.find(params[:main_list_id])
+		@desHouse = EachHouse.find(@main_list.destination)
+		params.each do |key, value|
+			if key.eql?("main_list_id") || key.eql?("controller") || key.eql?("action")
+				next
+			end
+			d_item=Item.find(key)
+			@main_list.total_amount-=d_item.in_amount
+			@main_list.total_price-=d_item.in_amount*d_item.price
+			
+			if value.to_i>=d_item.in_amount
+				a = value.to_i-d_item.in_amount
+				d_item.amount+=a
+			else
+				a = d_item.in_amount - value.to_i
+				d_item.amount-=a
+			end
+			
+			@main_list.total_amount+=value.to_i
+			@main_list.total_price+=value.to_i*d_item.price
+			@main_list.update_column(:total_price, @main_list.total_price)
+			@main_list.update_column(:total_price, @main_list.total_amount)
+			d_item.update_column(:in_amount, value.to_i)
+			d_item.update_column(:amount, d_item.amount)
+		end
+		flash[:success]="修改成功"
+		redirect_to operate_path
+	end
+	def editoutlist
+		@main_list=MainList.find(params[:main_list_id])
+		@sourceHouse = EachHouse.find(@main_list.source)
+		@desHouse = EachHouse.find(@main_list.destination)
+		params.each do |key, value|
+			if key.eql?("main_list_id") || key.eql?("controller") || key.eql?("action")
+				next
+			end
+			d_item = Item.find(key)
+			s_items = Item.where(:name=>d_item.name, :spec=>d_item.spec, :unit=>d_item.unit, :price=>d_item.price, :each_house_id=>@sourceHouse.id).all
+			if value.to_i>d_item.out_amount
+				a = value.to_i-d_item.out_amount
+				s_items.each do |item|
+					if item.amount>a
+						item.amount=item.amount-a
+						d_item.out_amount=d_item.out_amount+a
+						d_item.amount+=a
+						item.update_column(:amount, item.amoumt)
+						break
+					end
+				end
+			else
+				a = d_item.amount-value.to_i
+				s_items.each do |item|
+					item.amount+=a
+					d_item.out_amount-=a
+					d_item.amount-=a
+					item.update_column(:amount, item.amount)
+					break
+				end
+			end
+			d_item.update_column(:amount, d_item.amount)
+			d_item.update_column(:out_amount, d_item.out_amount)
+		end
+
+		@main_list.total_amount=0;
+		@main_list.total_price=0;
+		@main_list.items.each do |item|
+			@main_list.total_amount+=item.out_amount
+			@main_list.total_price+=item.out_amount*item.price
+		end
+		@main_list.update_column(:total_amount, @main_list.total_amount)
+		@main_list.update_column(:total_price, @main_list.total_price)
+		flash[:success]="修改成功"
+		redirect_to operate_path
+	end	
   def operate
     if signed_in? && admin?
       @main_list=MainList.new
@@ -357,6 +505,10 @@ class StaticpagesController < ApplicationController
     #category{"id"=>, "thismonth"=>, "lastmonth"=>, "in"=>, "out"=>}
     @startyear = params[:startDate][0,4].to_i
     @startmonth = params[:startDate][5,6].to_i
+		@startday=params[:startDate][8,9].to_i
+    @endyear = params[:endDate][0,4].to_i
+    @endmonth = params[:endDate][5,6].to_i
+    @endday = params[:endDate][8,9].to_i
     @warehouse = params[:warehouse][0]
     @AorB = {"A"=>1, "B"=>2}
 
@@ -373,9 +525,47 @@ class StaticpagesController < ApplicationController
     end
 
     MainList.all.each do |m|
+			belong_to = false
       @yearOfEachItem = m.updated_at.strftime("%Y").to_i
       @monthOfEachItem = m.updated_at.strftime("%m").to_i
-      if @yearOfEachItem==@startyear && @monthOfEachItem==@startmonth
+			@dayOfEachItem = m.updated_at.strftime("%d").to_i
+      if @startyear<@yearOfEachItem && @yearOfEachItem<@endyear
+				belong_to = true
+      elsif @startyear==@yearOfEachItem && @yearOfEachItem<@endyear
+        if @startmonth<@monthOfEachItem
+					belong_to = true
+        elsif @startmonth==@monthOfEachItem
+          if @startday <= @dayOfEachItem
+						belong_to = true
+          end
+        end
+      elsif @startyear<@yearOfEachItem && @yearOfEachItem==@endyear
+        if @monthOfEachItem<@endmonth
+					belong_to = true
+        elsif @monthOfEachItem==@endmonth
+          if @dayOfEachItem<=@endday
+						belong_to = true
+          end
+        end
+      elsif @startyear==@yearOfEachItem && @yearOfEachItem==@endyear
+        if @startmonth<@monthOfEachItem && @monthOfEachItem<@endmonth
+					belong_to = true
+        elsif @startmonth==@monthOfEachItem && @monthOfEachItem<@endmonth
+          if @startday <= @dayOfEachItem
+						belong_to = true
+          end
+        elsif @startmonth<@monthOfEachItem && @monthOfEachItem==@endmonth
+          if @dayOfEachItem <= @endday
+						belong_to = true
+          end
+        elsif @startmonth==@monthOfEachItem && @monthOfEachItem==@endmonth
+          if @startday<=@dayOfEachItem && @dayOfEachItem<=@endday
+						belong_to = true
+          end
+        end
+      end
+			
+      if belong_to
         if m.source==@AorB[@warehouse]#出库单
           m.items.each do |i|
             @category.each do |c|
@@ -414,7 +604,45 @@ class StaticpagesController < ApplicationController
     MainList.all.each do |m|
       @yearOfEachItem = m.updated_at.strftime("%Y").to_i
       @monthOfEachItem = m.updated_at.strftime("%m").to_i
-      if @yearOfEachItem==@startyear && @monthOfEachItem==@startmonth
+			@dayOfEachItem = m.updated_at.strftime("%d").to_i
+			belong_to=false
+			if @startyear<@yearOfEachItem && @yearOfEachItem<@endyear
+				belong_to = true
+      elsif @startyear==@yearOfEachItem && @yearOfEachItem<@endyear
+        if @startmonth<@monthOfEachItem
+					belong_to = true
+        elsif @startmonth==@monthOfEachItem
+          if @startday <= @dayOfEachItem
+						belong_to = true
+          end
+        end
+      elsif @startyear<@yearOfEachItem && @yearOfEachItem==@endyear
+        if @monthOfEachItem<@endmonth
+					belong_to = true
+        elsif @monthOfEachItem==@endmonth
+          if @dayOfEachItem<=@endday
+						belong_to = true
+          end
+        end
+      elsif @startyear==@yearOfEachItem && @yearOfEachItem==@endyear
+        if @startmonth<@monthOfEachItem && @monthOfEachItem<@endmonth
+					belong_to = true
+        elsif @startmonth==@monthOfEachItem && @monthOfEachItem<@endmonth
+          if @startday <= @dayOfEachItem
+						belong_to = true
+          end
+        elsif @startmonth<@monthOfEachItem && @monthOfEachItem==@endmonth
+          if @dayOfEachItem <= @endday
+						belong_to = true
+          end
+        elsif @startmonth==@monthOfEachItem && @monthOfEachItem==@endmonth
+          if @startday<=@dayOfEachItem && @dayOfEachItem<=@endday
+						belong_to = true
+          end
+        end
+      end
+			
+      if belong_to
         @dormitory.each do |d|
           if m.destination==d['id']
             d['ticketamount'] += 1

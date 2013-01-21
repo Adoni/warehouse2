@@ -9,11 +9,12 @@
 		<th>总金额</th>
 		<th>总数目</th>
 		<th>明细</th>
+		<th>操作</th>
 	  </tr>
 	</thead>
     <tbody>
       <%@list.each do |l|%>
-        <tr>
+        <tr id="<%=l.id%>">
           <td><%=l.updated_at.strftime("%Y-%m-%d")%></td>
           <td><%=l.total_price%></td>
           <td><%=l.total_amount%></td>
@@ -21,6 +22,7 @@
 		    <table class="table">
 			  <thead>
 			    <tr>
+				  <th>N</th>
 				  <th>品类</th>
 				  <th>物品名称</th>
 				  <th>规格</th>
@@ -33,6 +35,7 @@
 			  <tbody>
 			  <%l.items.each do |item|%>
 			    <tr>
+				  <td><%=item.id%></td>
 				  <td><%=Category.find(item.category_id).name%></td>
 				  <td><%=item.name%></td>
 				  <td><%=item.spec%></td>
@@ -45,8 +48,72 @@
 			  </tbody>
 			</table>
           </td>
+		  <td>
+			<a href="javascript:edit(<%=l.id.to_s%>)">修改</a>
+			<a href="javascript:destroy(<%=l.id.to_s%>)">删除</a>
+			<a href="javascript:print(<%=l.id.to_s%>)">打印</a>
+		  </td>
         </tr>
       <%end%>
 	</tbody>
   </table>
 </div>
+<script type="text/javascript">
+	var myform;
+	function print(list)
+	{
+		myform=document.createElement("form");
+		myform.action="/printinlist"
+		myform.method="post";
+		var mainlistid= document.createElement("input");
+		mainlistid.setAttribute("name", "main_list_id");
+		mainlistid.setAttribute("value", list);
+		mainlistid.setAttribute("type", "hidden");
+		myform.appendChild(mainlistid);
+		myform.submit();
+	}
+	function destroy(list)
+	{
+		myform=document.createElement("form");
+		myform.action="/deleteinlist"
+		myform.method="post";
+		var mainlistid= document.createElement("input");
+		mainlistid.setAttribute("name", "main_list_id");
+		mainlistid.setAttribute("value", list);
+		mainlistid.setAttribute("type", "hidden");
+		myform.appendChild(mainlistid);
+		myform.submit();
+	}
+	function edit(list)
+	{
+		myform = document.createElement("form");
+		myform.action="/editinlist";
+		myform.method="post";
+		var mainlistid = document.createElement("input");
+		mainlistid.setAttribute("name", "main_list_id");
+		mainlistid.setAttribute("value", list);
+		mainlistid.setAttribute("type", "hidden");	
+		myform.appendChild(mainlistid);	
+		var list = document.getElementById(list);
+		var tds = list.getElementsByTagName("td");
+		var tbody = tds[3].getElementsByTagName("tbody");
+		var trs = tbody[0].getElementsByTagName("tr");
+		for (var i=0; i<trs.length; i++)
+		{
+			var tdss=trs[i].getElementsByTagName("td");
+			var amountinput=document.createElement("input");
+			amountinput.setAttribute("class", "input-mini");
+			amountinput.setAttribute("name", tdss[0].innerHTML);
+			amountinput.setAttribute("type", "text");
+			amountinput.setAttribute("placeholder", "N:"+tdss[0].innerHTML);
+			myform.appendChild(amountinput);
+		}
+		list.appendChild(myform);
+		submitbutton = list.getElementsByTagName("a");
+		submitbutton[0].innerHTML="<input type='submit' value='提交' onclick='SubmitForm()'/>";	
+}
+	function SubmitForm()
+	{
+		myform.submit();
+	}
+</script>
