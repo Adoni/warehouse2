@@ -592,7 +592,7 @@ class StaticpagesController < ApplicationController
 
     @dormitory=Array.new
     EachHouse.all.each do |e|
-      if e.position.eql?(params[:warehouse])
+      if e.position.eql?(params[:warehouse][0]+"区")
         if e.name.eql?("A区主仓库") || e.name.eql?("B区主仓库")
           next
         end
