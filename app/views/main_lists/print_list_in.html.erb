@@ -1,39 +1,53 @@
+<style>
+  body{TEXT-ALIGN: center;}
+  vertical-align:middle;
+  margin-left:auto 0;
+  margin-right:auto 0;
+</style>
 <div class="container">
-<div class="row">
-<div class="span5">
-<table border="1">
+<div class="row" >
+<style>
+  margin-left:auto 0;
+  margin-right:auto 0;
+</style>
+<table width="100%">
+<tr><td>
+<div width="100%">
+<table border="1" width="100%">
   <tr>
-    <th>录单日期</th>
-    <td><%=@main_list.updated_at.strftime("%Y年%m月%d日")%></td>
+    <th width="50%">录单日期'</th>
+    <td width="50%"><%=@main_list.updated_at.strftime("%Y年%m月%d日")%></td>
   </tr>
   <tr>
-    <th>供货单位</th>
-    <td><input type="text" name="department"></td>
+    <th width="50%">供货单位</th>
+    <td width="50%"><input type="text" name="department"></td>
   </tr>
   <tr>
-    <th>入库仓库</th>
-    <td><%=EachHouse.find(@main_list.destination).name%></td>
+    <th width="50%">入库仓库</th>
+    <td width="50%"><%=EachHouse.find(@main_list.destination).name%></td>
   </tr>
   <tr>
-    <th>经手人</th>
-    <td><input type="text" name="people"></td>
+    <th width="50%">经手人</th>
+    <td width="50%"><input type="text" name="people"></td>
   </tr>
   <tr>
-    <th>附加说明</th>
-    <td><input type="text" name="desc"></td>
+    <th width="50%">附加说明</th>
+    <td width="50%"><input type="text" name="desc"></td>
   </tr>
   <tr>
-    <th>数量合计</th>
-    <td><%=@main_list.total_amount%></td>
+    <th width="50%">数量合计</th>
+    <td width="50%"><%=@main_list.total_amount%></td>
   </tr>
   <tr>
-    <th>金额合计</th>
-    <td><%=@main_list.total_price%></td>
+    <th width="50%">金额合计</th>
+    <td width="50%"><%=@main_list.total_price%></td>
   </tr>
 </table>
 </div>
-<div class="span7">
-<table border="1">
+</td></tr>
+<tr><td>
+<div width="100%">
+<table border="1" width="100%">
   <tr>
     <th>行号</th>
 	<th>大类</th>
@@ -67,5 +81,8 @@
 </table>
 <%=link_to "||", operate_path%>
 </div>
+</td></tr>
+</table>
+
 </div>
 </div>

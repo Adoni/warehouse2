@@ -1,4 +1,3 @@
-
 <style>
   body{TEXT-ALIGN: center;}
   vertical-align:middle;
@@ -6,25 +5,25 @@
   margin-right:auto 0;
 </style>
 <div class="container">
-<div class="row">
+<div class="row" >
 <style>
   margin-left:auto 0;
   margin-right:auto 0;
 </style>
 <table>
 <tr><td>
-<div >
+<div>
 <table border="1" width="100%">
   <tr>
     <th width="50%">录单日期'</th>
     <td width="50%"><%=@main_list.updated_at.strftime("%Y年%m月%d日")%></td>
   </tr>
   <tr>
-    <th width="50%">出库仓库</th>
-    <td width="50%"><%=EachHouse.find(@main_list.source).name%></td>
+    <th width="50%">供货单位</th>
+    <td width="50%"><input type="text" name="department"></td>
   </tr>
   <tr>
-    <th width="50%">调拨单位</th>
+    <th width="50%">入库仓库</th>
     <td width="50%"><%=EachHouse.find(@main_list.destination).name%></td>
   </tr>
   <tr>
@@ -37,17 +36,17 @@
   </tr>
   <tr>
     <th width="50%">数量合计</th>
-    <td width="50%"><%=@main_list.total_amount%></td>
+    <td><%=@main_list.total_amount%></td>
   </tr>
   <tr>
-    <th width="50%">金额合计</th>
-    <td width="50%"><%=@main_list.total_price%></td>
+    <th>金额合计</th>
+    <td><%=@main_list.total_price%></td>
   </tr>
 </table>
 </div>
-</tr></td>
+</td></tr>
 <tr><td>
-<div >
+<div>
 <table border="1" width="100%">
   <tr>
     <th>行号</th>
@@ -82,6 +81,8 @@
 </table>
 <%=link_to "||", operate_path%>
 </div>
-</tr></td>
+</td></tr>
+</table>
+
 </div>
 </div>

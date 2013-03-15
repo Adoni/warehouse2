@@ -13,8 +13,8 @@
 </style>
 <table>
 <tr><td>
-<div >
-<table border="1" width="100%">
+<div class="span5">
+<table border="1" width="700">
   <tr>
     <th width="50%">录单日期'</th>
     <td width="50%"><%=@main_list.updated_at.strftime("%Y年%m月%d日")%></td>
@@ -24,31 +24,31 @@
     <td width="50%"><%=EachHouse.find(@main_list.source).name%></td>
   </tr>
   <tr>
-    <th width="50%">调拨单位</th>
-    <td width="50%"><%=EachHouse.find(@main_list.destination).name%></td>
+    <th>调拨单位</th>
+    <td><%=EachHouse.find(@main_list.destination).name%></td>
   </tr>
   <tr>
-    <th width="50%">经手人</th>
-    <td width="50%"><input type="text" name="people"></td>
+    <th>经手人</th>
+    <td><input type="text" name="people"></td>
   </tr>
   <tr>
-    <th width="50%">附加说明</th>
-    <td width="50%"><input type="text" name="desc"></td>
+    <th>附加说明</th>
+    <td><input type="text" name="desc"></td>
   </tr>
   <tr>
-    <th width="50%">数量合计</th>
-    <td width="50%"><%=@main_list.total_amount%></td>
+    <th>数量合计</th>
+    <td><%=@main_list.total_amount%></td>
   </tr>
   <tr>
-    <th width="50%">金额合计</th>
-    <td width="50%"><%=@main_list.total_price%></td>
+    <th>金额合计</th>
+    <td><%=@main_list.total_price%></td>
   </tr>
 </table>
 </div>
 </tr></td>
 <tr><td>
-<div >
-<table border="1" width="100%">
+<div class="span7">
+<table border="1" width="700">
   <tr>
     <th>行号</th>
 	<th>大类</th>

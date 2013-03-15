@@ -6,7 +6,7 @@ gem 'rails', '3.2.8'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2'
-gem 'therubyracer'
+gem 'therubyracer', '~>0.11.3'
 gem 'bcrypt-ruby', '~> 3.0.1' #用于has_secure_password
 gem 'bootstrap-sass', '~> 2.2.2.0'
 

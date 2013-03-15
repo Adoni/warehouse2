@@ -49,7 +49,7 @@
               <th>仓库名</th>
               <th>负责人</th>
               <th>操作</th>
-              <th></th>
+              <th>Delete</th>
             <tr>
           </thead>
           <tbody>
@@ -61,7 +61,7 @@
                 <td>无</td>
               <%end%>
               <%if admin?%>
-              <td><a href="#house" role="button" data-toggle="modal">修改</a></td>
+              <td><a href="#changeHouse" role="button" data-toggle="modal">修改</a></td>
               <td><%=link_to "删除仓库", @eachhouse, method: :delete, data:{confirm:"确定？"}%></td>
               <%end%>
             </tr>
@@ -76,7 +76,7 @@
           <%end%>  
         </ul>
                  
-        <div class="tab-content">
+        <div class="tab-content"><!--???what's its effection?-->
           <%Category.all.each do |f|%> 
             <div class="tab-pane" id=<%=f.id.to_s%>>
               <table class="table table-bordered">
@@ -126,7 +126,8 @@
   </div>
 
 <!-- 修改用dialog -->
-<div id="house" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="houseLabel" aria-hidden="true">
+<!-- what's the css??-->
+<div id="changeHouse" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="houseLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="houseLabel">修改仓库基本信息</h3>
